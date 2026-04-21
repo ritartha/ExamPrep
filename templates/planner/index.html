@@ -1,0 +1,880 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WBCS Preparation Planner — 2-Year Strategy</title>
+  <meta name="description" content="A comprehensive 2-year WBCS Civil Service preparation timetable and planner for working professionals with Electrical Engineering optional." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+</head>
+<body>
+
+  <!-- ============ SIDEBAR NAV ============ -->
+  <nav id="sidebar" class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      </div>
+      <span class="brand-text">WBCS Planner</span>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="#" class="nav-link active" data-tab="dashboard" id="nav-dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        <span>Dashboard</span>
+      </a></li>
+      <li><a href="#" class="nav-link" data-tab="daily" id="nav-daily">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+        <span>Daily Plan</span>
+      </a></li>
+      <li><a href="#" class="nav-link" data-tab="weekly" id="nav-weekly">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>Weekly Plan</span>
+      </a></li>
+      <li><a href="#" class="nav-link" data-tab="monthly" id="nav-monthly">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10H3M16 2v4M8 2v4M3 6a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6z"/></svg>
+        <span>Monthly Plan</span>
+      </a></li>
+      <li><a href="#" class="nav-link" data-tab="goals" id="nav-goals">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22,4 12,14.01 9,11.01"/></svg>
+        <span>Monthly Goals</span>
+      </a></li>
+      <li><a href="#" class="nav-link" data-tab="checklist" id="nav-checklist">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        <span>Weekly Checklist</span>
+      </a></li>
+      <li><a href="#" class="nav-link" data-tab="strategy" id="nav-strategy">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+        <span>Strategy</span>
+      </a></li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <div class="streak-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        <div>
+          <span class="streak-label">Current Streak</span>
+          <span class="streak-count" id="streakCount">0 days</span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============ MOBILE HEADER ============ -->
+  <header class="mobile-header" id="mobileHeader">
+    <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <h1 class="mobile-title">WBCS Planner</h1>
+    <div class="header-streak">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      <span id="mobileStreakCount">0</span>
+    </div>
+  </header>
+
+  <!-- ============ OVERLAY ============ -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- ============ MAIN CONTENT ============ -->
+  <main class="main-content" id="mainContent">
+
+    <!-- ========== DASHBOARD TAB ========== -->
+    <section class="tab-content active" id="tab-dashboard">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Dashboard</h1>
+          <p class="page-subtitle">Your WBCS Preparation Overview</p>
+        </div>
+        <div class="header-actions">
+          <span class="today-badge" id="todayBadge"></span>
+        </div>
+      </div>
+
+      <!-- Stats Cards -->
+      <div class="stats-grid">
+        <div class="stat-card stat-gold">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-value" id="daysCompleted">0</span>
+            <span class="stat-label">Days Completed</span>
+          </div>
+          <div class="stat-progress">
+            <div class="progress-bar"><div class="progress-fill" id="dayProgress" style="width:0%"></div></div>
+            <span class="progress-text" id="dayProgressText">0 / 730</span>
+          </div>
+        </div>
+        <div class="stat-card stat-blue">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-value" id="totalHours">0</span>
+            <span class="stat-label">Total Hours Studied</span>
+          </div>
+          <div class="stat-progress">
+            <div class="progress-bar"><div class="progress-fill blue" id="hourProgress" style="width:0%"></div></div>
+            <span class="progress-text" id="hourProgressText">Target: ~3,000 hrs</span>
+          </div>
+        </div>
+        <div class="stat-card stat-green">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22,4 12,14.01 9,11.01"/></svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-value" id="tasksCompleted">0</span>
+            <span class="stat-label">Tasks Completed</span>
+          </div>
+          <div class="stat-progress">
+            <div class="progress-bar"><div class="progress-fill green" id="taskProgress" style="width:0%"></div></div>
+            <span class="progress-text" id="taskProgressText">This week</span>
+          </div>
+        </div>
+        <div class="stat-card stat-purple">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-value" id="currentPhase">Year 1</span>
+            <span class="stat-label">Foundation Phase</span>
+          </div>
+          <div class="stat-progress">
+            <div class="progress-bar"><div class="progress-fill purple" id="phaseProgress" style="width:0%"></div></div>
+            <span class="progress-text">Foundation + Coverage</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Today's Quick View -->
+      <div class="section-grid">
+        <div class="card today-card">
+          <div class="card-header">
+            <h2 class="card-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+              Today's Schedule
+            </h2>
+            <span class="day-type-badge" id="dayTypeBadge">Weekday</span>
+          </div>
+          <div class="timeline" id="todayTimeline">
+            <!-- Filled by JS -->
+          </div>
+        </div>
+
+        <div class="card golden-rules-card">
+          <div class="card-header">
+            <h2 class="card-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+              Golden Rules
+            </h2>
+          </div>
+          <div class="rules-list">
+            <div class="rule-item">
+              <div class="rule-icon">📌</div>
+              <div>
+                <h4>PYQs are your Bible</h4>
+                <p>Solve last 10–15 years papers repeatedly</p>
+              </div>
+            </div>
+            <div class="rule-item">
+              <div class="rule-icon">🔁</div>
+              <div>
+                <h4>Revision Cycle</h4>
+                <p>1 day quick → 1 week deep → 1 month full</p>
+              </div>
+            </div>
+            <div class="rule-item">
+              <div class="rule-icon">✍️</div>
+              <div>
+                <h4>Answer Writing</h4>
+                <p>Start after 6 months: 2–3 answers daily</p>
+              </div>
+            </div>
+            <div class="rule-item">
+              <div class="rule-icon">⚠️</div>
+              <div>
+                <h4>Burnout Management</h4>
+                <p>Keep 1 light day/week. Don't chase perfection.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Motivational Quote -->
+      <div class="card quote-card">
+        <div class="quote-marks">"</div>
+        <p class="quote-text" id="quoteText">Consistency beats intensity. Show up every day for 600+ days — that's how you crack WBCS.</p>
+        <div class="quote-progress-info">
+          <span>📅 ~30 hrs/week is enough</span>
+          <span>🎯 Weekdays: 3.5–4.5 hrs</span>
+          <span>🔥 Weekends: 6–8 hrs</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== DAILY PLAN TAB ========== -->
+    <section class="tab-content" id="tab-daily">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Daily Plan</h1>
+          <p class="page-subtitle">Your everyday study routine</p>
+        </div>
+        <div class="toggle-group">
+          <button class="toggle-btn active" data-daytype="weekday" id="btn-weekday">Weekday</button>
+          <button class="toggle-btn" data-daytype="weekend-sat" id="btn-saturday">Saturday</button>
+          <button class="toggle-btn" data-daytype="weekend-sun" id="btn-sunday">Sunday</button>
+        </div>
+      </div>
+
+      <!-- Weekday Plan -->
+      <div class="day-plan active" id="plan-weekday">
+        <div class="time-block morning">
+          <div class="time-block-header">
+            <div class="time-icon">🌅</div>
+            <div>
+              <h3>Morning — High Focus Slot</h3>
+              <span class="time-range">5:30 AM – 8:00 AM (2.5 hrs)</span>
+            </div>
+          </div>
+          <div class="time-block-body">
+            <div class="task-item">
+              <div class="task-duration">1.5 hr</div>
+              <div class="task-details">
+                <h4>General Studies (Static Subjects)</h4>
+                <p>Polity / History / Geography / Economy / Environment</p>
+                <span class="task-tag tag-gs">GS</span>
+              </div>
+            </div>
+            <div class="task-item">
+              <div class="task-duration">1 hr</div>
+              <div class="task-details">
+                <h4>Optional — Electrical Engineering</h4>
+                <p>Network Theory / Control Systems / Machines / Power Systems / Electronics</p>
+                <span class="task-tag tag-ee">EE Optional</span>
+              </div>
+            </div>
+          </div>
+          <div class="time-block-tip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M12 2a7 7 0 017 7c0 2.38-1.19 4.47-3 5.74V17a2 2 0 01-2 2h-4a2 2 0 01-2-2v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 017-7z"/><line x1="9" y1="21" x2="15" y2="21"/></svg>
+            Brain is fresh = best for tough subjects like EE or Polity
+          </div>
+        </div>
+
+        <div class="time-block office">
+          <div class="time-block-header">
+            <div class="time-icon">🕘</div>
+            <div>
+              <h3>Office Time — Smart Micro-Prep</h3>
+              <span class="time-range">During breaks / commute</span>
+            </div>
+          </div>
+          <div class="time-block-body">
+            <div class="task-item">
+              <div class="task-duration">15-20m</div>
+              <div class="task-details">
+                <h4>Current Affairs</h4>
+                <p>Read via apps or PDFs during lunch break</p>
+                <span class="task-tag tag-ca">Current Affairs</span>
+              </div>
+            </div>
+            <div class="task-item">
+              <div class="task-duration">15-20m</div>
+              <div class="task-details">
+                <h4>Revise Notes</h4>
+                <p>Quick revision in small chunks</p>
+                <span class="task-tag tag-rev">Revision</span>
+              </div>
+            </div>
+            <div class="task-item">
+              <div class="task-duration">Commute</div>
+              <div class="task-details">
+                <h4>Podcasts / Audio Lectures</h4>
+                <p>Passive learning during commute</p>
+                <span class="task-tag tag-misc">Misc</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="time-block evening">
+          <div class="time-block-header">
+            <div class="time-icon">🌙</div>
+            <div>
+              <h3>Evening — Low Energy Slot</h3>
+              <span class="time-range">8:30 PM – 10:30 PM (2 hrs)</span>
+            </div>
+          </div>
+          <div class="time-block-body">
+            <div class="task-item">
+              <div class="task-duration">1 hr</div>
+              <div class="task-details">
+                <h4>Practice — MCQs / PYQs</h4>
+                <p>Solve previous year questions and mock MCQs</p>
+                <span class="task-tag tag-practice">Practice</span>
+              </div>
+            </div>
+            <div class="task-item">
+              <div class="task-duration">1 hr</div>
+              <div class="task-details">
+                <h4>Light Subject / Revision</h4>
+                <p>History / Geography / Revision — avoid heavy EE here</p>
+                <span class="task-tag tag-gs">GS</span>
+              </div>
+            </div>
+          </div>
+          <div class="time-block-tip warn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            Avoid heavy EE here unless you're mentally fresh
+          </div>
+        </div>
+
+        <div class="daily-summary-card">
+          <h3>📊 Weekday Summary</h3>
+          <div class="summary-chips">
+            <div class="chip"><span>Total</span><strong>3.5 – 4.5 hrs</strong></div>
+            <div class="chip"><span>GS</span><strong>2.5 hrs</strong></div>
+            <div class="chip"><span>EE</span><strong>1 hr</strong></div>
+            <div class="chip"><span>Practice</span><strong>1 hr</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Saturday Plan -->
+      <div class="day-plan" id="plan-weekend-sat">
+        <div class="time-block morning">
+          <div class="time-block-header">
+            <div class="time-icon">⚡</div>
+            <div>
+              <h3>Saturday — Optional Heavy Day</h3>
+              <span class="time-range">Full Day: 6–8 hours</span>
+            </div>
+          </div>
+          <div class="time-block-body">
+            <div class="task-item">
+              <div class="task-duration">3 hrs</div>
+              <div class="task-details">
+                <h4>Electrical Engineering (Deep Study)</h4>
+                <p>Concepts + Problems — Network Theory, Control Systems, Machines, Power Systems, Electronics</p>
+                <span class="task-tag tag-ee">EE Optional</span>
+              </div>
+            </div>
+            <div class="task-item">
+              <div class="task-duration">2 hrs</div>
+              <div class="task-details">
+                <h4>GS Subject — Deep Study</h4>
+                <p>Pick one subject and go deep: Polity / History / Geography / Economy</p>
+                <span class="task-tag tag-gs">GS</span>
+              </div>
+            </div>
+            <div class="task-item">
+              <div class="task-duration">1-2 hrs</div>
+              <div class="task-details">
+                <h4>Answer Writing / MCQ Practice</h4>
+                <p>Write structured answers or solve MCQ sets</p>
+                <span class="task-tag tag-practice">Practice</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="daily-summary-card">
+          <h3>📊 Saturday Summary</h3>
+          <div class="summary-chips">
+            <div class="chip"><span>Total</span><strong>6 – 7 hrs</strong></div>
+            <div class="chip"><span>EE</span><strong>3 hrs</strong></div>
+            <div class="chip"><span>GS</span><strong>2 hrs</strong></div>
+            <div class="chip"><span>Practice</span><strong>1-2 hrs</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sunday Plan -->
+      <div class="day-plan" id="plan-weekend-sun">
+        <div class="time-block morning">
+          <div class="time-block-header">
+            <div class="time-icon">🔥</div>
+            <div>
+              <h3>Sunday — Mock Test + Analysis Day</h3>
+              <span class="time-range">Full Day: 6–8 hours</span>
+            </div>
+          </div>
+          <div class="time-block-body">
+            <div class="task-item">
+              <div class="task-duration">3 hrs</div>
+              <div class="task-details">
+                <h4>Full-Length Mock Test</h4>
+                <p>Prelims or Mains mock — simulate real exam conditions</p>
+                <span class="task-tag tag-practice">Mock Test</span>
+              </div>
+            </div>
+            <div class="task-item">
+              <div class="task-duration">2 hrs</div>
+              <div class="task-details">
+                <h4>Weak Area Analysis</h4>
+                <p>Review mistakes, identify weak topics, mark for revision — VERY IMPORTANT</p>
+                <span class="task-tag tag-rev">Analysis</span>
+              </div>
+            </div>
+            <div class="task-item">
+              <div class="task-duration">2 hrs</div>
+              <div class="task-details">
+                <h4>Weekly Revision</h4>
+                <p>Revise everything studied during the week — MUST DO</p>
+                <span class="task-tag tag-rev">Revision</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="daily-summary-card">
+          <h3>📊 Sunday Summary</h3>
+          <div class="summary-chips">
+            <div class="chip"><span>Total</span><strong>6 – 8 hrs</strong></div>
+            <div class="chip"><span>Mock</span><strong>3 hrs</strong></div>
+            <div class="chip"><span>Analysis</span><strong>2 hrs</strong></div>
+            <div class="chip"><span>Revision</span><strong>2 hrs</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== WEEKLY PLAN TAB ========== -->
+    <section class="tab-content" id="tab-weekly">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Weekly Plan</h1>
+          <p class="page-subtitle">Structured weekly study layout</p>
+        </div>
+        <div class="week-nav">
+          <button class="icon-btn" id="prevWeek">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15,18 9,12 15,6"/></svg>
+          </button>
+          <span class="week-label" id="weekLabel">Week 1</span>
+          <button class="icon-btn" id="nextWeek">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9,18 15,12 9,6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="weekly-grid" id="weeklyGrid">
+        <!-- Monday -->
+        <div class="week-day-card">
+          <div class="week-day-header">
+            <span class="week-day-name">Monday</span>
+            <span class="week-day-hours">~4 hrs</span>
+          </div>
+          <div class="week-day-tasks">
+            <div class="mini-task gs">GS: Polity (1.5h)</div>
+            <div class="mini-task ee">EE: Network Theory (1h)</div>
+            <div class="mini-task practice">MCQ Practice (1h)</div>
+            <div class="mini-task ca">Current Affairs</div>
+          </div>
+        </div>
+        <!-- Tuesday -->
+        <div class="week-day-card">
+          <div class="week-day-header">
+            <span class="week-day-name">Tuesday</span>
+            <span class="week-day-hours">~4 hrs</span>
+          </div>
+          <div class="week-day-tasks">
+            <div class="mini-task gs">GS: History (1.5h)</div>
+            <div class="mini-task ee">EE: Control Systems (1h)</div>
+            <div class="mini-task practice">PYQ Solving (1h)</div>
+            <div class="mini-task ca">Current Affairs</div>
+          </div>
+        </div>
+        <!-- Wednesday -->
+        <div class="week-day-card">
+          <div class="week-day-header">
+            <span class="week-day-name">Wednesday</span>
+            <span class="week-day-hours">~4 hrs</span>
+          </div>
+          <div class="week-day-tasks">
+            <div class="mini-task gs">GS: Geography (1.5h)</div>
+            <div class="mini-task ee">EE: Machines (1h)</div>
+            <div class="mini-task rev">Revision (1h)</div>
+            <div class="mini-task ca">Current Affairs</div>
+          </div>
+        </div>
+        <!-- Thursday -->
+        <div class="week-day-card">
+          <div class="week-day-header">
+            <span class="week-day-name">Thursday</span>
+            <span class="week-day-hours">~4 hrs</span>
+          </div>
+          <div class="week-day-tasks">
+            <div class="mini-task gs">GS: Economy (1.5h)</div>
+            <div class="mini-task ee">EE: Power Systems (1h)</div>
+            <div class="mini-task practice">MCQ Practice (1h)</div>
+            <div class="mini-task ca">Current Affairs</div>
+          </div>
+        </div>
+        <!-- Friday -->
+        <div class="week-day-card light-day">
+          <div class="week-day-header">
+            <span class="week-day-name">Friday <span class="light-badge">Light Day</span></span>
+            <span class="week-day-hours">~3.5 hrs</span>
+          </div>
+          <div class="week-day-tasks">
+            <div class="mini-task gs">GS: Environment (1.5h)</div>
+            <div class="mini-task ee">EE: Electronics (1h)</div>
+            <div class="mini-task rev">Light Revision (1h)</div>
+            <div class="mini-task ca">Current Affairs</div>
+          </div>
+        </div>
+        <!-- Saturday -->
+        <div class="week-day-card weekend">
+          <div class="week-day-header">
+            <span class="week-day-name">Saturday <span class="weekend-badge">Weekend</span></span>
+            <span class="week-day-hours">~6-7 hrs</span>
+          </div>
+          <div class="week-day-tasks">
+            <div class="mini-task ee">EE Deep Study (3h)</div>
+            <div class="mini-task gs">GS Deep Study (2h)</div>
+            <div class="mini-task practice">Answer Writing / MCQs (1-2h)</div>
+          </div>
+        </div>
+        <!-- Sunday -->
+        <div class="week-day-card weekend">
+          <div class="week-day-header">
+            <span class="week-day-name">Sunday <span class="weekend-badge">Weekend</span></span>
+            <span class="week-day-hours">~6-8 hrs</span>
+          </div>
+          <div class="week-day-tasks">
+            <div class="mini-task practice">Full Mock Test (3h)</div>
+            <div class="mini-task rev">Weak Area Analysis (2h)</div>
+            <div class="mini-task rev">Weekly Revision (2h)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EE Weekly Split -->
+      <div class="card ee-split-card">
+        <div class="card-header">
+          <h2 class="card-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            EE Optional — Weekly Split Strategy
+          </h2>
+        </div>
+        <div class="ee-split-grid">
+          <div class="ee-split-item">
+            <div class="ee-split-days">Mon – Wed</div>
+            <div class="ee-split-focus">Concepts</div>
+            <p>Theory + understanding fundamentals</p>
+          </div>
+          <div class="ee-split-item">
+            <div class="ee-split-days">Thu – Fri</div>
+            <div class="ee-split-focus">Problem Solving</div>
+            <p>Numerical + application-based questions</p>
+          </div>
+          <div class="ee-split-item">
+            <div class="ee-split-days">Weekend</div>
+            <div class="ee-split-focus">PYQs + Revision</div>
+            <p>Previous year papers + concept revision</p>
+          </div>
+        </div>
+        <div class="time-block-tip" style="margin-top:1rem;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M12 2a7 7 0 017 7c0 2.38-1.19 4.47-3 5.74V17a2 2 0 01-2 2h-4a2 2 0 01-2-2v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 017-7z"/><line x1="9" y1="21" x2="15" y2="21"/></svg>
+          Treat EE like a <strong>numerical + conceptual hybrid</strong> — balance theory and practice equally.
+        </div>
+      </div>
+
+      <!-- Weekly Hour Summary -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">📊 Weekly Hour Breakdown</h2>
+        </div>
+        <div class="hour-breakdown">
+          <div class="hour-bar-group">
+            <span class="hour-label">Mon</span>
+            <div class="hour-bar"><div class="hour-fill" style="width:57%"></div></div>
+            <span class="hour-value">4h</span>
+          </div>
+          <div class="hour-bar-group">
+            <span class="hour-label">Tue</span>
+            <div class="hour-bar"><div class="hour-fill" style="width:57%"></div></div>
+            <span class="hour-value">4h</span>
+          </div>
+          <div class="hour-bar-group">
+            <span class="hour-label">Wed</span>
+            <div class="hour-bar"><div class="hour-fill" style="width:57%"></div></div>
+            <span class="hour-value">4h</span>
+          </div>
+          <div class="hour-bar-group">
+            <span class="hour-label">Thu</span>
+            <div class="hour-bar"><div class="hour-fill" style="width:57%"></div></div>
+            <span class="hour-value">4h</span>
+          </div>
+          <div class="hour-bar-group">
+            <span class="hour-label">Fri</span>
+            <div class="hour-bar"><div class="hour-fill" style="width:50%"></div></div>
+            <span class="hour-value">3.5h</span>
+          </div>
+          <div class="hour-bar-group weekend-bar">
+            <span class="hour-label">Sat</span>
+            <div class="hour-bar"><div class="hour-fill gold" style="width:93%"></div></div>
+            <span class="hour-value">6.5h</span>
+          </div>
+          <div class="hour-bar-group weekend-bar">
+            <span class="hour-label">Sun</span>
+            <div class="hour-bar"><div class="hour-fill gold" style="width:100%"></div></div>
+            <span class="hour-value">7h</span>
+          </div>
+        </div>
+        <div class="total-hours-badge">
+          Total: <strong>~33 hours/week</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== MONTHLY PLAN TAB ========== -->
+    <section class="tab-content" id="tab-monthly">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Monthly Plan</h1>
+          <p class="page-subtitle">24-month subject rotation schedule</p>
+        </div>
+        <div class="toggle-group">
+          <button class="toggle-btn active" data-year="1" id="btn-year1">Year 1</button>
+          <button class="toggle-btn" data-year="2" id="btn-year2">Year 2</button>
+        </div>
+      </div>
+
+      <!-- Year 1 -->
+      <div class="year-plan active" id="year-plan-1">
+        <div class="year-banner">
+          <div class="year-banner-icon">📘</div>
+          <div>
+            <h2>Year 1 — Foundation + Coverage</h2>
+            <p>Complete syllabus + basic understanding. Build notes, understand concepts, solve PYQs side by side.</p>
+          </div>
+        </div>
+        <div class="months-grid" id="year1Months">
+          <!-- Month cards generated by JS -->
+        </div>
+      </div>
+
+      <!-- Year 2 -->
+      <div class="year-plan" id="year-plan-2">
+        <div class="year-banner year2">
+          <div class="year-banner-icon">📗</div>
+          <div>
+            <h2>Year 2 — Advanced + Exam Mode</h2>
+            <p>Crack Prelims + Prepare Mains simultaneously. Mock tests, answer writing, fast revision cycles.</p>
+          </div>
+        </div>
+        <div class="months-grid" id="year2Months">
+          <!-- Month cards generated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== MONTHLY GOALS TAB ========== -->
+    <section class="tab-content" id="tab-goals">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Monthly Goals</h1>
+          <p class="page-subtitle">Track what you should achieve each month</p>
+        </div>
+        <div class="month-selector">
+          <button class="icon-btn" id="prevMonth">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15,18 9,12 15,6"/></svg>
+          </button>
+          <span class="month-label" id="monthLabel">Month 1</span>
+          <button class="icon-btn" id="nextMonth">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9,18 15,12 9,6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="goals-container" id="goalsContainer">
+        <!-- Generated by JS -->
+      </div>
+    </section>
+
+    <!-- ========== WEEKLY CHECKLIST TAB ========== -->
+    <section class="tab-content" id="tab-checklist">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Weekly Checklist</h1>
+          <p class="page-subtitle">Check off tasks as you complete them</p>
+        </div>
+        <div class="checklist-actions">
+          <button class="btn-outline" id="resetChecklist">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="1,4 1,10 7,10"/><path d="M3.51 15a9 9 0 105.42-8.33L1 10"/></svg>
+            Reset Week
+          </button>
+        </div>
+      </div>
+
+      <div class="checklist-grid" id="checklistGrid">
+        <!-- Generated by JS -->
+      </div>
+
+      <div class="checklist-progress-card" id="checklistProgressCard">
+        <div class="checklist-progress-ring">
+          <svg viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="50" stroke="rgba(255,255,255,0.1)" stroke-width="8" fill="none"/>
+            <circle cx="60" cy="60" r="50" stroke="url(#goldGradient)" stroke-width="8" fill="none" stroke-dasharray="314" stroke-dashoffset="314" stroke-linecap="round" id="progressCircle"/>
+            <defs>
+              <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#F5A623"/>
+                <stop offset="100%" stop-color="#FFD700"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="progress-center">
+            <span class="progress-percent" id="checklistPercent">0%</span>
+            <span class="progress-sub">Complete</span>
+          </div>
+        </div>
+        <div class="checklist-stats">
+          <div class="cl-stat"><span class="cl-stat-val" id="clDone">0</span><span>Done</span></div>
+          <div class="cl-stat"><span class="cl-stat-val" id="clTotal">0</span><span>Total</span></div>
+          <div class="cl-stat"><span class="cl-stat-val" id="clRemaining">0</span><span>Remaining</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== STRATEGY TAB ========== -->
+    <section class="tab-content" id="tab-strategy">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">2-Year Strategy</h1>
+          <p class="page-subtitle">The complete roadmap to cracking WBCS</p>
+        </div>
+      </div>
+
+      <div class="strategy-timeline">
+        <!-- Year 1 -->
+        <div class="strategy-section">
+          <div class="strategy-year-badge">📘 Year 1 — Foundation</div>
+          <div class="strategy-cards">
+            <div class="strategy-card">
+              <h3>🎯 Goal</h3>
+              <p>Complete syllabus + basic understanding</p>
+            </div>
+            <div class="strategy-card">
+              <h3>📚 Subjects</h3>
+              <ul>
+                <li>Polity</li>
+                <li>History (Indian + World)</li>
+                <li>Geography</li>
+                <li>Economy</li>
+                <li>Environment</li>
+                <li>EE Core Subjects</li>
+              </ul>
+            </div>
+            <div class="strategy-card">
+              <h3>📝 Routine Focus</h3>
+              <ul>
+                <li>Build comprehensive notes</li>
+                <li>Understand concepts deeply</li>
+                <li>Solve PYQs side by side</li>
+                <li>Start current affairs habit</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="strategy-divider">
+          <div class="divider-line"></div>
+          <span class="divider-text">6 months in → Start Answer Writing</span>
+          <div class="divider-line"></div>
+        </div>
+
+        <!-- Year 2 -->
+        <div class="strategy-section">
+          <div class="strategy-year-badge year2">📗 Year 2 — Exam Mode</div>
+          <div class="strategy-cards">
+            <div class="strategy-card">
+              <h3>🎯 Goal</h3>
+              <p>Crack Prelims + Prepare Mains simultaneously</p>
+            </div>
+            <div class="strategy-card">
+              <h3>🔥 Focus</h3>
+              <ul>
+                <li>Mock tests: weekly → bi-weekly</li>
+                <li>Answer writing: VERY IMPORTANT</li>
+                <li>Fast revision cycles</li>
+                <li>EE PYQ mastery</li>
+              </ul>
+            </div>
+            <div class="strategy-card">
+              <h3>📊 Revision Cycle</h3>
+              <ul>
+                <li>1 day → quick revision</li>
+                <li>1 week → deep revision</li>
+                <li>1 month → full revision</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EE Strategy -->
+      <div class="card" style="margin-top:2rem;">
+        <div class="card-header">
+          <h2 class="card-title">⚡ Electrical Engineering Optional Strategy</h2>
+        </div>
+        <div class="ee-subjects-grid">
+          <div class="ee-subject-card">
+            <div class="ee-subject-icon">🔌</div>
+            <h4>Network Theory</h4>
+            <p>KVL, KCL, Thevenin, Norton, AC/DC analysis</p>
+          </div>
+          <div class="ee-subject-card">
+            <div class="ee-subject-icon">🎛️</div>
+            <h4>Control Systems</h4>
+            <p>Transfer functions, stability, Bode plots, root locus</p>
+          </div>
+          <div class="ee-subject-card">
+            <div class="ee-subject-icon">⚙️</div>
+            <h4>Electrical Machines</h4>
+            <p>Transformers, DC/AC machines, induction motors</p>
+          </div>
+          <div class="ee-subject-card">
+            <div class="ee-subject-icon">🏗️</div>
+            <h4>Power Systems</h4>
+            <p>Load flow, fault analysis, protection, transmission</p>
+          </div>
+          <div class="ee-subject-card">
+            <div class="ee-subject-icon">💻</div>
+            <h4>Analog & Digital Electronics</h4>
+            <p>Op-amps, diodes, transistors, logic gates, ADC/DAC</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- No Sugarcoating -->
+      <div class="card truth-card">
+        <h2>🧠 Final Truth — No Sugarcoating</h2>
+        <div class="truth-columns">
+          <div class="truth-col dont">
+            <h3>You DON'T need:</h3>
+            <ul>
+              <li>❌ 10 hrs/day</li>
+              <li>❌ Fancy coaching</li>
+              <li>❌ Quitting your job</li>
+            </ul>
+          </div>
+          <div class="truth-col do">
+            <h3>You DO need:</h3>
+            <ul>
+              <li>✅ Consistency for 600+ days</li>
+              <li>✅ Smart revision</li>
+              <li>✅ PYQ mastery</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="{% static 'js/app.js' %}"></script>
+</body>
+</html>
